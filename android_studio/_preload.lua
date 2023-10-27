@@ -317,3 +317,10 @@ p.api.register
     scope = "project",
     kind = "list:string"
 }
+
+p.api.register
+{
+    name = "androidbuildfeatures",
+    scope = "project",
+    kind = "list:string"
+}

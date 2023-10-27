@@ -328,6 +328,14 @@ function m.generate_cmake_lists(prj)
         -- somehow gradle wants lowecase debug / release but 
         -- still passes "Debug" and "Release" to cmake
         p.x('if(CMAKE_BUILD_TYPE STREQUAL "%s")', cfg.name)
+
+        -- cmake packages
+        if prj.androidcmakepackages then
+            for _, line in ipairs(prj.androidcmakepackages) do
+                p.x('find_package(%s)', line)
+            end
+        end
+
         -- target                
         local file_list = ""
         for _, file in ipairs(cfg.files) do
@@ -394,7 +402,7 @@ function m.generate_cmake_lists(prj)
             linker_options = linker_options .. " -L" .. libdir
         end
                 
-        local links = toolset.getlinks(cfg, "system", "fullpath")
+        local links = config.getlinks(cfg, "system", "fullpath")
         if links then
             linker_options = linker_options .. " " .. table.concat(links, " ")
         end
@@ -409,13 +417,6 @@ function m.generate_cmake_lists(prj)
         end
         if defines ~= "" then
             p.x('target_compile_definitions(%s PUBLIC %s)', prj.name, defines)
-        end
-
-        -- cmake packages
-        if prj.androidcmakepackages then
-            for _, line in ipairs(prj.androidcmakepackages) do
-                p.x('find_package(%s)', line)
-            end
         end
         
         -- injecting custom cmake code 
@@ -530,6 +531,15 @@ function m.generate_project(prj)
     end
     
     p.pop('}') -- defaultConfig 
+
+    -- buildFeatures
+    if #prj.androidbuildfeatures > 0 then
+        p.push('buildFeatures {')
+        for _, feature in ipairs(prj.androidbuildfeatures) do
+            p.x(feature)
+        end
+        p.pop('}') -- buildFeatures
+    end
             
     -- abis
     abi_list = m.csv_string_from_table(prj.androidabis)
