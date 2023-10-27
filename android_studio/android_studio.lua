@@ -410,6 +410,13 @@ function m.generate_cmake_lists(prj)
         if defines ~= "" then
             p.x('target_compile_definitions(%s PUBLIC %s)', prj.name, defines)
         end
+
+        -- cmake packages
+        if prj.androidcmakepackages then
+            for _, line in ipairs(prj.androidcmakepackages) do
+                p.x('find_package(%s)', line)
+            end
+        end
         
         -- injecting custom cmake code 
         if prj.androidcmake then
@@ -442,6 +449,11 @@ function m.generate_project(prj)
     end
 
     p.push('android {')
+
+    -- namespace
+    if prj.androidnamespace then
+        p.x("namespace '%s'", prj.androidnamespace)
+    end
     
     complete_signing_info = false
     if prj.androidkeyalias and 
