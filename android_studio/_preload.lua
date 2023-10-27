@@ -71,6 +71,8 @@ newaction {
     end
 }
 
+p.api.addAllowed("system", "android")
+
 p.api.register 
 {
     name = "androidabis",
@@ -300,4 +302,18 @@ p.api.register
     name = "androidtestrunner",
     scope = "project",
     kind = "string"
+}
+
+p.api.register
+{
+    name = "androidnamespace",
+    scope = "project",
+    kind = "string"
+}
+
+p.api.register
+{
+    name = "androidcmakepackages",
+    scope = "project",
+    kind = "list:string"
 }
