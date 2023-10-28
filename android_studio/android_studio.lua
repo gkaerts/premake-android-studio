@@ -327,7 +327,7 @@ function m.generate_cmake_lists(prj)
     for cfg in project.eachconfig(prj) do                
         -- somehow gradle wants lowecase debug / release but 
         -- still passes "Debug" and "Release" to cmake
-        p.x('if(CMAKE_BUILD_TYPE STREQUAL "%s")', cfg.name)
+        p.x('if(CMAKE_BUILD_TYPE STREQUAL "%s")', cfg.buildcfg)
 
         -- cmake packages
         if prj.androidcmakepackages then
@@ -545,7 +545,7 @@ function m.generate_project(prj)
     abi_list = m.csv_string_from_table(prj.androidabis)
     p.push('buildTypes {')
     for cfg in project.eachconfig(prj) do
-        p.push(string.lower(cfg.name) .. ' {')
+        p.push(string.lower(cfg.buildcfg) .. ' {')
         -- todo:
         -- p.w('signingConfig signingConfigs.config')
         if abi_list then
@@ -558,7 +558,7 @@ function m.generate_project(prj)
             p.x('%s', setting)
         end
 
-        p.pop('}') -- cfg.name
+        p.pop('}') -- cfg.buildcfg
     end
     p.pop('}') -- build types
 
@@ -598,11 +598,11 @@ function m.generate_project(prj)
     
     -- java and resource files
     for cfg in project.eachconfig(prj) do
-        p.push(string.lower(cfg.name) .. ' {')
+        p.push(string.lower(cfg.buildcfg) .. ' {')
         m.add_sources(cfg, 'java', {'.java', '.kt'}, {})
         m.add_sources(cfg, 'res', {'.png', '.xml'}, {"AndroidManifest.xml"}, "/res/")
         m.add_sources(cfg, 'androidTest.java', {'.java'}, {})
-        p.pop('}') -- cfg.name
+        p.pop('}') -- cfg.buildcfg
     end
     p.pop('}') -- sources
     
