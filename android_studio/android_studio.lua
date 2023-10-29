@@ -215,7 +215,6 @@ function m.generate_manifest(prj)
     -- auto generate stub android manifest
     p.w('<?xml version="1.0" encoding="utf-8"?>')
     p.push('<manifest xmlns:android="http://schemas.android.com/apk/res/android"')
-    p.x('package="lib.%s"', prj.name)
     p.w('android:versionCode="1"')
     p.w('android:versionName="1.0" >')
     p.pop('<application/>')
