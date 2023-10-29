@@ -296,7 +296,8 @@ function m.generate_cmake_lists(prj)
         ".cpp",
         ".c",
         ".h",
-        ".hpp"    
+        ".hpp",
+        ".cc"
     }
     
     local project_deps = ""
