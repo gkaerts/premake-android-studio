@@ -324,3 +324,10 @@ p.api.register
     scope = "project",
     kind = "list:string"
 }
+
+p.api.register
+{
+    name = "jnilibdirs",
+    scope = "project",
+    kind = "list:directory"
+}

@@ -602,6 +602,12 @@ function m.generate_project(prj)
         m.add_sources(cfg, 'java', {'.java', '.kt'}, {})
         m.add_sources(cfg, 'res', {'.png', '.xml'}, {"AndroidManifest.xml"}, "/res/")
         m.add_sources(cfg, 'androidTest.java', {'.java'}, {})
+        
+        jnilib_dir_list = m.csv_string_from_table(cfg.jnilibdirs)
+        if jnilib_dir_list then
+            p.x('jniLibs.srcDirs += [%s]', jnilib_dir_list)
+        end
+        
         p.pop('}') -- cfg.buildcfg
     end
     p.pop('}') -- sources
